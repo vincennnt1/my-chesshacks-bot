@@ -14,7 +14,6 @@ from .encoder import board_to_tensor
 # Load the trained model
 # -------------------------
 model = TinyChessModel("src/utils/model_weights/model_weights.npz")
-model.eval()  # put model in inference mode
 
 
 # ================================
