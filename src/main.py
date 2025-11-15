@@ -137,7 +137,7 @@ def classical_eval(board: chess.Board):
 # Hybrid NN + Classical Evaluation
 # ================================
 def nn_eval(board):
-    x = board_to_tensor(board).numpy()  # convert tensor → numpy
+    x = board_to_tensor(board)
     return model.forward(x)
 
 

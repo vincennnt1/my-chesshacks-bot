@@ -19,6 +19,7 @@ async def root():
 
 @app.post("/move")
 async def get_move(request: Request):
+    logs = ""
     try:
         data = await request.json()
     except Exception as e:
