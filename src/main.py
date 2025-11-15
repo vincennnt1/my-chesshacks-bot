@@ -13,8 +13,7 @@ from .encoder import board_to_tensor
 # -------------------------
 # Load the trained model
 # -------------------------
-model = TinyChessModel()
-model.load_state_dict(torch.load("src/utils/model_weights/model_weights.npz", map_location="cpu"))
+model = TinyChessModel("src/utils/model_weights/model_weights.npz")
 model.eval()  # put model in inference mode
 
 
