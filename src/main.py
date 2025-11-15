@@ -15,7 +15,7 @@ from .encoder import board_to_tensor
 # Load the trained model
 # -------------------------
 model = TinyChessModel()
-model.load_state_dict(torch.load("src/utils/model_weights/best_model.pt", map_location="cpu"))
+model.load_state_dict(torch.load("src/utils/model_weights/model_weights.npz", map_location="cpu"))
 model.eval()  # put model in inference mode
 
 
@@ -140,9 +140,8 @@ def classical_eval(board: chess.Board):
 # Hybrid NN + Classical Evaluation
 # ================================
 def nn_eval(board):
-    x = board_to_tensor(board).unsqueeze(0)
-    with torch.no_grad():
-        return model(x).item()
+    x = board_to_tensor(board).numpy()  # convert tensor → numpy
+    return model.forward(x)
 
 
 def evaluate(board, use_nn):
