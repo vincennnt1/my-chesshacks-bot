@@ -3,7 +3,6 @@ import chess
 from chess import Move
 import random
 import time
-import torch
 
 from .model import TinyChessModel
 from .encoder import board_to_tensor
