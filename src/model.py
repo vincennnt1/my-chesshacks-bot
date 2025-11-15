@@ -1,6 +1,6 @@
 import numpy as np
 
-class TinyChessModelNumpy:
+class TinyChessModel:
     def __init__(self, weights_path):
         data = np.load(weights_path)
 
