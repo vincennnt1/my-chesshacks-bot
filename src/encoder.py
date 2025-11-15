@@ -1,4 +1,3 @@
-import torch
 import chess
 import numpy as np
 
@@ -18,7 +17,7 @@ PIECE_TO_INDEX = {
     chess.Piece(chess.KING, False): 12,
 }
 
-def board_to_tensor(board: chess.Board) -> torch.Tensor:
+def board_to_tensor(board: chess.Board) -> np.ndarray:
     arr = np.zeros((64, 13), dtype=np.float32)
 
     for square in chess.SQUARES:
@@ -26,6 +25,4 @@ def board_to_tensor(board: chess.Board) -> torch.Tensor:
         idx = PIECE_TO_INDEX[piece]
         arr[square, idx] = 1.0
 
-    arr = arr.reshape(-1)
-
-    return torch.tensor(arr, dtype=torch.float32)
+    return arr.reshape(-1)  # returns NumPy array of shape (832,)
