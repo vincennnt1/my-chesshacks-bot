@@ -1,6 +1,9 @@
-# ChessHacks Starter Bot
+# ChessHacks Bot
 
-This is a starter bot for ChessHacks. It includes a basic bot and devtools. This is designed to help you get used to what the interface for building a bot feels like, as well as how to scaffold your own bot.
+chesshacks-bot is a hybrid chess engine built during the 2025 ChessHacks competition.
+It combines minimax + alpha–beta pruning, quiescence search, a hand-crafted evaluation function, and a custom TinyChessModel neural network for position scoring.
+
+The goal was to build a chess engine from scratch — understanding search, heuristics, neural evaluation, and deployment — all within the hackathon time constraint.
 
 ## Directory Structure
 
