@@ -13,8 +13,13 @@ from .encoder import board_to_tensor
 # -------------------------
 # Load the trained model
 # -------------------------
-model = TinyChessModel("src/utils/model_weights/model_weights_distilled.npz")
-
+model = None
+def get_model():
+    global model
+    if model is None:
+        print("Loading model...")
+        model = TinyChessModel("src/utils/model_weights/model_weights_distilled.npz")
+    return model
 
 # ================================
 # Classical Evaluation
@@ -137,8 +142,9 @@ def classical_eval(board: chess.Board):
 # Hybrid NN + Classical Evaluation
 # ================================
 def nn_eval(board):
+    m = get_model()
     x = board_to_tensor(board)
-    return model.forward(x)
+    return m.forward(x)
 
 
 # NO TIME TO FIX ALL CODE, but essentially ONLY uses NN now, no classical eval heuristics
