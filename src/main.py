@@ -13,7 +13,7 @@ from .encoder import board_to_tensor
 # -------------------------
 # Load the trained model
 # -------------------------
-model = TinyChessModel("src/utils/model_weights/model_weights.npz")
+model = TinyChessModel("src/utils/model_weights/model_weights_distilled.npz")
 
 
 # ================================
@@ -242,6 +242,14 @@ def search(board, depth, alpha, beta):
     moves.sort(key=lambda m: move_score(board, m), reverse=True)
 
     for move in moves:
+        piece = board.piece_at(move.from_square)
+
+        # HARD RULE: no random queen adventures early
+        if piece and piece.piece_type == chess.QUEEN and board.fullmove_number < 8:
+            # allow only if it's a capture or a check
+            if not (board.is_capture(move) or board.gives_check(move)):
+                continue  # skip this move entirely
+        
         board.push(move)
         value = -search(board, depth-1, -beta, -alpha)
         board.pop()
@@ -272,6 +280,13 @@ def choose_best_move(board, depth=3):
     legal_moves.sort(key=lambda m: move_score(board, m), reverse=True)
 
     for move in legal_moves:
+        piece = board.piece_at(move.from_square)
+
+        # Same hard rule at the root
+        if piece and piece.piece_type == chess.QUEEN and board.fullmove_number < 10:
+            if not (board.is_capture(move) or board.gives_check(move)):
+                continue
+            
         board.push(move)
         score = -search(board, depth - 1, -999999, 999999)
         board.pop()
@@ -292,7 +307,7 @@ def test_func(ctx: GameContext):
         print("Engine thinking with search + NN...")
         time.sleep(0.05)
 
-        best_move = choose_best_move(ctx.board, depth=3)
+        best_move = choose_best_move(ctx.board, depth=2)
         return best_move
     except Exception as e:
         import traceback
@@ -301,6 +316,6 @@ def test_func(ctx: GameContext):
 
 @chess_manager.reset
 def reset_func(ctx: GameContext):
-    # This gets called when a new game begins
-    # Should do things like clear caches, reset model state, etc.
+    global eval_cache
+    eval_cache = {}
     pass
