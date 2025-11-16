@@ -141,6 +141,7 @@ def nn_eval(board):
     return model.forward(x)
 
 
+# NO TIME TO FIX ALL CODE, but essentially ONLY uses NN now, no classical eval heuristics
 def evaluate(board, use_nn):
     # --- caching key ---
     key = board.fen()
@@ -159,9 +160,10 @@ def evaluate(board, use_nn):
         score = classical * 0.25 + neural * 0.75
     else:
         score = classical
+        neural = nn_eval(board)
 
     eval_cache[cache_key] = score
-    return score
+    return neural
 
 
 # ================================
@@ -242,14 +244,6 @@ def search(board, depth, alpha, beta):
     moves.sort(key=lambda m: move_score(board, m), reverse=True)
 
     for move in moves:
-        piece = board.piece_at(move.from_square)
-
-        # HARD RULE: no random queen adventures early
-        if piece and piece.piece_type == chess.QUEEN and board.fullmove_number < 8:
-            # allow only if it's a capture or a check
-            if not (board.is_capture(move) or board.gives_check(move)):
-                continue  # skip this move entirely
-        
         board.push(move)
         value = -search(board, depth-1, -beta, -alpha)
         board.pop()
@@ -280,13 +274,6 @@ def choose_best_move(board, depth=3):
     legal_moves.sort(key=lambda m: move_score(board, m), reverse=True)
 
     for move in legal_moves:
-        piece = board.piece_at(move.from_square)
-
-        # Same hard rule at the root
-        if piece and piece.piece_type == chess.QUEEN and board.fullmove_number < 10:
-            if not (board.is_capture(move) or board.gives_check(move)):
-                continue
-            
         board.push(move)
         score = -search(board, depth - 1, -999999, 999999)
         board.pop()
