@@ -5,6 +5,52 @@ It combines minimax + alpha–beta pruning, quiescence search, a hand-crafted ev
 
 The goal was to build a chess engine from scratch — understanding search, heuristics, neural evaluation, and deployment — all within the hackathon time constraint.
 
+## Hackathon Goals
+
+- Build a chess engine that plays legal and reasonable chess within strict time limits
+- Integrate machine learning without relying on massive pretrained models
+- Improve play quality through classical heuristics + learned evaluation
+- Successfully deploy the engine to the ChessHacks competition platform
+
+## Research & Design Decisions
+
+Throughout the hackathon, I explored:
+
+Search Algorithms
+
+- Minimax and how negamax simplifies implementation
+- Alpha–beta pruning: understanding how α increases and β decreases to eliminate losing branches
+- Move ordering to speed up pruning
+- Quiescence search to avoid horizon effects — only extending capture sequences
+- Ideas like MCTS (Monte Carlo Tree Search) for future upgrades
+- Neural Network Design
+- Designing a small PyTorch model to evaluate board states
+
+Researching
+
+- How engines like Leela Zero use NNUE-like evaluation
+- Encoding board positions using one-hot planes
+- Balancing inference cost vs accuracy
+
+Heuristics & Evaluation Theory
+
+I studied engine heuristics including:
+
+- Mobility
+- King safety
+- Piece-square tables
+- Passed pawns
+- Hanging pieces
+- Queen overactivity penalties
+- Forward development bonuses
+
+## Issues that Arose throughout Hackathon
+
+- Minimax Infinite Recursion
+- Deployment Build Failures
+- Incomplete Heuristic evaluations leading to blunders, such as Queen overuse
+- Overweighting a certain heuristic, such as Mobility
+
 ## Directory Structure
 
 `/devtools` is a Next.js app that provides a UI for testing your bot. It includes an analysis board that you can use to test your bot and play against your own bot. You do not need to edit, or look at, any of this code (unless you want to). This file should be gitignored. Find out why [here](#installing-devtools-if-you-did-not-run-npx-chesshacks-create).
