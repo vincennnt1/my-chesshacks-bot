@@ -5,6 +5,9 @@ It combines minimax + alpha–beta pruning, quiescence search, a hand-crafted ev
 
 The goal was to build a chess engine from scratch — understanding search, heuristics, neural evaluation, and deployment — all within the hackathon time constraint.
 
+## Model Training Repo
+Here you can find the repo with all my training files: [chess-neural-net](https://github.com/vincennnt1/chess-neural-net)
+
 ## Hackathon Goals
 
 - Build a chess engine that plays legal and reasonable chess within strict time limits
